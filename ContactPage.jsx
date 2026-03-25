@@ -9,11 +9,35 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
-    setTimeout(() => setSubmitted(false), 3000);
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/battunanda6@gmail.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: "New Message from Contact Form"
+        })
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setSubmitted(false), 4000);
+      } else {
+        alert("Failed to send message. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -39,9 +63,9 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label className="form-label">Full Name *</label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
+                  <input
+                    type="text"
+                    className="form-control"
                     name="name"
                     placeholder="Your full name"
                     value={formData.name}
@@ -51,9 +75,9 @@ export default function ContactPage() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Email Address *</label>
-                  <input 
-                    type="email" 
-                    className="form-control" 
+                  <input
+                    type="email"
+                    className="form-control"
                     name="email"
                     placeholder="your@email.com"
                     value={formData.email}
@@ -63,8 +87,8 @@ export default function ContactPage() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Message *</label>
-                  <textarea 
-                    className="form-control" 
+                  <textarea
+                    className="form-control"
                     name="message"
                     placeholder="Your message..."
                     rows="6"
@@ -84,8 +108,8 @@ export default function ContactPage() {
                 <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>📍</div>
                 <div style={{ fontWeight: '700', marginBottom: '4px' }}>Headquarters</div>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  Election Commission of India<br/>
-                  Nirvachan Sadan, New Delhi<br/>
+                  Election Commission of India<br />
+                  Nirvachan Sadan, New Delhi<br />
                   110001, India
                 </p>
               </div>
@@ -93,16 +117,14 @@ export default function ContactPage() {
                 <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>📧</div>
                 <div style={{ fontWeight: '700', marginBottom: '4px' }}>Email</div>
                 <p style={{ fontSize: '0.85rem', color: 'var(--saffron)' }}>
-                  support@ems-india.gov.in<br/>
-                  technical@ems-india.gov.in
+                  battunanda6@gmail.com
                 </p>
               </div>
               <div className="card">
                 <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>☎️</div>
                 <div style={{ fontWeight: '700', marginBottom: '4px' }}>Phone</div>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  +91 (011) 2309-1111<br/>
-                  +91 (011) 2309-1234
+                  +91 7075385859
                 </p>
               </div>
             </div>
